@@ -1,0 +1,45 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "custom_pdf_animation",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "custom_pdf_animation (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "custom_pdf_animation (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "pdf_viewer",
+            "cwd": "plugins/pdf_viewer",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "pdf_viewer (profile mode)",
+            "cwd": "plugins/pdf_viewer",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "pdf_viewer (release mode)",
+            "cwd": "plugins/pdf_viewer",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
