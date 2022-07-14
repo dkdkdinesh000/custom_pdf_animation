@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'transformer_page_view.dart';
 
-typedef void PaintCallback(Canvas canvas, Size siz);
+typedef PaintCallback = void Function(Canvas canvas, Size siz);
 
 class ColorPainter extends CustomPainter {
   final Paint _paint;
@@ -12,23 +12,23 @@ class ColorPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    int index = info.fromIndex;
+    final int index = info.fromIndex;
     _paint.color = colors[index];
     canvas.drawRect(
-        new Rect.fromLTWH(0.0, 0.0, size.width, size.height), _paint);
+        Rect.fromLTWH(0.0, 0.0, size.width, size.height), _paint);
     if (info.done) {
       return;
     }
     int alpha;
     int color;
     double opacity;
-    double position = info.position;
+    final double position = info.position;
     if (info.forward) {
       if (index < colors.length - 1) {
         color = colors[index + 1].value & 0x00ffffff;
-        opacity = (position <= 0
+        opacity = position <= 0
             ? (-position / info.viewportFraction)
-            : 1 - position / info.viewportFraction);
+            : 1 - position / info.viewportFraction;
         if (opacity > 1) {
           opacity -= 1.0;
         }
@@ -37,16 +37,16 @@ class ColorPainter extends CustomPainter {
         }
         alpha = (0xff * opacity).toInt();
 
-        _paint.color = new Color((alpha << 24) | color);
+        _paint.color = Color((alpha << 24) | color);
         canvas.drawRect(
-            new Rect.fromLTWH(0.0, 0.0, size.width, size.height), _paint);
+            Rect.fromLTWH(0.0, 0.0, size.width, size.height), _paint);
       }
     } else {
       if (index > 0) {
         color = colors[index - 1].value & 0x00ffffff;
-        opacity = (position > 0
+        opacity = position > 0
             ? position / info.viewportFraction
-            : (1 + position / info.viewportFraction));
+            : (1 + position / info.viewportFraction);
         if (opacity > 1) {
           opacity -= 1.0;
         }
@@ -55,9 +55,9 @@ class ColorPainter extends CustomPainter {
         }
         alpha = (0xff * opacity).toInt();
 
-        _paint.color = new Color((alpha << 24) | color);
+        _paint.color = Color((alpha << 24) | color);
         canvas.drawRect(
-            new Rect.fromLTWH(0.0, 0.0, size.width, size.height), _paint);
+            Rect.fromLTWH(0.0, 0.0, size.width, size.height), _paint);
       }
     }
   }
@@ -69,12 +69,12 @@ class ColorPainter extends CustomPainter {
 }
 
 class _ParallaxColorState extends State<ParallaxColor> {
-  Paint paint = new Paint();
+  Paint paint = Paint();
 
   @override
   Widget build(BuildContext context) {
-    return new CustomPaint(
-      painter: new ColorPainter(paint, widget.info, widget.colors),
+    return CustomPaint(
+      painter: ColorPainter(paint, widget.info, widget.colors),
       child: widget.child,
     );
   }
@@ -87,7 +87,7 @@ class ParallaxColor extends StatefulWidget {
 
   final TransformInfo info;
 
-  ParallaxColor({
+  const ParallaxColor({
     required this.colors,
     required this.info,
     required this.child,
@@ -95,7 +95,7 @@ class ParallaxColor extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return new _ParallaxColorState();
+    return _ParallaxColorState();
   }
 }
 
@@ -105,20 +105,18 @@ class ParallaxContainer extends StatelessWidget {
   final double translationFactor;
   final double opacityFactor;
 
-  ParallaxContainer(
+  const ParallaxContainer(
       {required this.child,
       required this.position,
-      this.translationFactor: 100.0,
-      this.opacityFactor: 1.0})
-      : assert(position != null),
-        assert(translationFactor != null);
+      this.translationFactor = 100.0,
+      this.opacityFactor = 1.0});
 
   @override
   Widget build(BuildContext context) {
     return Opacity(
       opacity: (1 - position.abs()).clamp(0.0, 1.0) * opacityFactor,
-      child: new Transform.translate(
-        offset: new Offset(position * translationFactor, 0.0),
+      child: Transform.translate(
+        offset: Offset(position * translationFactor, 0.0),
         child: child,
       ),
     );
@@ -130,9 +128,8 @@ class ParallaxImage extends StatelessWidget {
   final double imageFactor;
 
   ParallaxImage.asset(String name,
-      {required double position, this.imageFactor: 0.3})
-      : assert(imageFactor != null),
-        image = Image.asset(name,
+      {required double position, this.imageFactor = 0.3})
+      : image = Image.asset(name,
             fit: BoxFit.cover,
             alignment: FractionalOffset(
               0.5 + position * imageFactor,
