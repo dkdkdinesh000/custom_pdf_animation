@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   loadDocument() async {
-    document = await PDFDocument.fromAsset('assets/sample.pdf');
+    document = await PDFDocument.fromAsset('assets/osoil.pdf');
 
     setState(() => _isLoading = false);
   }
@@ -83,6 +83,7 @@ class _MyAppState extends State<MyApp> {
         child: _isLoading
             ? Center(child: CircularProgressIndicator())
             : PDFViewer(
+                lazyLoad: false,
                 document: document,
                 zoomSteps: 1,
                 //uncomment below line to preload all pages
